@@ -20,7 +20,7 @@ export default class TiktokenTokenizerPlugin extends Plugin {
             this.enc = get_encoding("o200k_base");
             this.initialized = true;
             this.statusBarItemEl.setText("Tokenizer ready.");
-            console.log("Tiktoken tokenizer initialized successfully.");
+            console.debug("Tiktoken tokenizer initialized successfully.");
             this.updateTokenCount();
         } catch (e) {
             console.error("Fatal error initializing Tiktoken tokenizer:", e);
@@ -61,6 +61,6 @@ export default class TiktokenTokenizerPlugin extends Plugin {
     onunload() {
         this.enc?.free();
         this.initialized = false;
-        console.log("Tiktoken tokenizer unloaded and resources freed.");
+        console.debug("Tiktoken tokenizer unloaded and resources freed.");
     }
 }
