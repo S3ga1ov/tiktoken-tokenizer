@@ -1,4 +1,4 @@
-# Obsidian TikToken Tokenizer Plugin
+# TikToken Tokenizer Plugin
 
 This plugin for [Obsidian](https://obsidian.md) displays the token count for the currently active note in the status bar. It utilizes the `@dqbd/tiktoken` library, a WebAssembly port of OpenAI's `tiktoken`, to ensure accurate tokenization according to the models used by OpenAI (specifically, it uses the `o200k_base` encoding for `gpt-4o`).
 
