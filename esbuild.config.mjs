@@ -1,7 +1,6 @@
 import esbuild from "esbuild";
 import process from "process";
-import builtins from "builtin-modules";
-import fs from "fs/promises";
+import { builtinModules } from "node:module";
 
 const banner =
 `/*
@@ -12,28 +11,12 @@ if you want to view the source, please visit the github repository of this plugi
 
 const prod = (process.argv[2] === "production");
 
-async function copyWasm() {
-    try {
-        await fs.copyFile(
-            './node_modules/@dqbd/tiktoken/tiktoken_bg.wasm',
-            './tiktoken_bg.wasm'
-        );
-        console.log('tiktoken_bg.wasm copied successfully.');
-    } catch (err) {
-        console.error('Error copying wasm file:', err);
-        process.exit(1);
-    }
-}
-
-import watPlugin from 'esbuild-plugin-wat';
-
 const context = await esbuild.context({
 	banner: {
 		js: banner,
 	},
 	entryPoints: ["main.ts"],
 	bundle: true,
-	plugins: [watPlugin({ loader: 'empty' })],
 	external: [
 		"obsidian",
 		"electron",
@@ -48,7 +31,8 @@ const context = await esbuild.context({
 		"@lezer/common",
 		"@lezer/highlight",
 		"@lezer/lr",
-		...builtins],
+		...builtinModules,
+	],
 	format: "cjs",
 	target: "es2020",
 	logLevel: "info",
@@ -56,8 +40,6 @@ const context = await esbuild.context({
 	treeShaking: true,
 	outfile: "main.js",
 });
-
-await copyWasm();
 
 if (prod) {
 	await context.rebuild();
